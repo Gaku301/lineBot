@@ -29,6 +29,8 @@ $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッ�
 //メッセージタイプが「text」以外のときは何も返さず終了
 if ($message_type != 'text') {
     exit;
+} elseif ($message_text == 'だれ') {
+    $return_message_text = 'お前がだれ？';
 }
 
 //返信メッセージ
