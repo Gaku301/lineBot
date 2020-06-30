@@ -31,6 +31,8 @@ if ($message_type != 'text') {
     exit;
 } elseif ($message_text == 'だれ') {
     $return_message_text = 'お前がだれ？';
+
+    return $return_message_text;
 }
 
 //返信メッセージ
