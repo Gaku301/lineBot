@@ -31,7 +31,7 @@ if ($message_type != 'text') {
     exit;
 }
 
-if ($message_text === 'だれ') {
+if (preg_match('/だれ/', $message_text)) {
     $return_message_text = 'こっちのセリフだよwww';
 } elseif ($message_text === 'やるじゃん') {
     $return_message_text = 'まぁなwww';
