@@ -37,7 +37,7 @@ if (preg_match('/だれ/', $message_text)) {
     $return_message_text = 'お、おうw　よろしくな！w';
 } elseif (preg_match('/やるじゃん/', $message_text)) {
     $return_message_text = 'まぁなwww';
-} elseif (preg_match('/言えない/' or '/言えん/', $message_text)) {
+} elseif (preg_match('/言えない|言えん|いえん|いえない/', $message_text)) {
     $return_message_text = 'ばーかww　なめんなよww';
 } else {
     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
