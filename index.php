@@ -31,18 +31,14 @@ if ($message_type != 'text') {
     exit;
 }
 
-// if ($message_text === 'だれ') {
-//     $return_message_text = 'テストボットだよ。よろしく頼む。';
-
-//     return $return_message_text;
-// } else {
-//     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
-
-//     return $return_message_text;
-// }
+if ($message_text === 'だれ') {
+    $return_message_text = 'テストボットだよ。よろしく頼む。';
+} else {
+    $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
+}
 
 //返信メッセージ
-$return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
+// $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
 
 //返信実行
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
