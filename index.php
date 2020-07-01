@@ -27,9 +27,9 @@ $message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッ�
 $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
 
 //メッセージタイプが「text」以外のときは何も返さず終了
-if ($message_type != 'text') {
-    exit;
-}
+// if ($message_type != 'text') {
+//     exit;
+// }
 
 if ($message_text === 'だれ') {
     $return_message_text = 'テストボットだよ。よろしく頼む。';
