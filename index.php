@@ -1,20 +1,6 @@
 <?php
 
-// require_once __DIR__.'/vendor/autoload.php';
-
-// $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-// $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-// $sign = $_SERVER['HTTP_'.\LINE\LINEBot\Constant\HTTPHeader::LINE_SIGNATURE];
-// $events = $bot->parseEventRequest(file_get_contents('php://input'), $sign);
-
-// foreach ($events as $event) {
-//     if (!($event instanceof \LINE\LINEBot\Event\MessageEvent) ||
-//         !($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-//         continue;
-//     }
-//     $bot->replyText($event->getReplyToken(), $event->getText());
-// }
-
+// チャンネルアクセストークンを入力
 $accessToken = 'H9W/gAYIJIXGoTFy7OiusrdhT4/F23bZ4oE5HcIzOTc4c4CXSnHYxLUNPigwHAywndFLoNwZCoa0DU5sNq2yfqwCsS0Ps9abSYsgIVgNo+ygvnA1IJgkXz2WLjfjTc1Q4uG9KfwPX/HBko2YGGnE/AdB04t89/1O/w1cDnyilFU=';
 
 //ユーザーからのメッセージ取得
@@ -31,6 +17,7 @@ if ($message_type != 'text') {
     exit;
 }
 
+//返信メッセージ
 if (preg_match('/だれ|誰/', $message_text)) {
     $return_message_text = 'こっちのセリフだよwww';
 } elseif (preg_match('/よろしく/', $message_text)) {
@@ -42,9 +29,6 @@ if (preg_match('/だれ|誰/', $message_text)) {
 } else {
     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
 }
-
-//返信メッセージ
-// $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
 
 //返信実行
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
