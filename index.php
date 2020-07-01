@@ -27,22 +27,22 @@ $message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッ�
 $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
 
 //メッセージタイプが「text」以外のときは何も返さず終了
-// if ($message_type != 'text') {
-//     exit;
-// }
-
-if ($message_text === 'だれ') {
-    $return_message_text = 'テストボットだよ。よろしく頼む。';
-
-    return $return_message_text;
-} else {
-    $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
-
-    return $return_message_text;
+if ($message_type != 'text') {
+    exit;
 }
 
+// if ($message_text === 'だれ') {
+//     $return_message_text = 'テストボットだよ。よろしく頼む。';
+
+//     return $return_message_text;
+// } else {
+//     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
+
+//     return $return_message_text;
+// }
+
 //返信メッセージ
-// $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
+$return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
 
 //返信実行
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
