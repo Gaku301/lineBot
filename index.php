@@ -31,11 +31,11 @@ if ($message_type != 'text') {
     exit;
 }
 
-if (preg_match('/だれ/', $message_text)) {
+if (preg_match('/だれ|誰/', $message_text)) {
     $return_message_text = 'こっちのセリフだよwww';
 } elseif (preg_match('/よろしく/', $message_text)) {
     $return_message_text = 'お、おうw　よろしくな！w';
-} elseif (preg_match('/やるじゃん/', $message_text)) {
+} elseif (preg_match('/やるじゃん|すごい/', $message_text)) {
     $return_message_text = 'まぁなwww';
 } elseif (preg_match('/言えない|言えん|いえん|いえない/', $message_text)) {
     $return_message_text = 'ばーかww　なめんなよww';
