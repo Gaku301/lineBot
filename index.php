@@ -32,7 +32,9 @@ if ($message_type != 'text') {
 }
 
 if ($message_text === 'だれ') {
-    $return_message_text = 'テストボットだよ。よろしく頼む。';
+    $return_message_text = 'こっちのセリフだよwww';
+} elseif ($message_text === 'やるじゃん') {
+    $return_message_text = 'まぁなwww';
 } else {
     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
 }
