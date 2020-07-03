@@ -32,8 +32,7 @@ if (preg_match('/だれ|誰/', $message_text)) {
 
 //返信実行
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
-?>
-<?php
+
 //メッセージの送信
 function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
 {
@@ -62,4 +61,3 @@ function sending_messages($accessToken, $replyToken, $message_type, $return_mess
     $result = curl_exec($ch);
     curl_close($ch);
 }
-?>
