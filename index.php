@@ -14,7 +14,7 @@ $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッ�
 
 //メッセージタイプが「text」以外のときは何も返さず終了
 if ($message_type != 'text') {
-    exit;
+    $return_message_text = 'スタンプやめろww';
 }
 
 //返信メッセージ
