@@ -56,7 +56,7 @@ function sending_messages($accessToken, $replyToken, $message_type, $return_mess
     //ポストデータ
     $post_data = [
         'replyToken' => $replyToken,
-        'messages' => [$response_format_text, $response_format_sticker],
+        'messages' => [$response_format_text],
     ];
 
     //curl実行
