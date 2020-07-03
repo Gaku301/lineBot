@@ -32,27 +32,27 @@ if (preg_match('/だれ|誰/', $message_text)) {
 }
 
 //返信実行
-sending_messages($accessToken, $replyToken, $message_type, $return_message_text, $return_message_sticker_packageId, $return_message_sticker_stickerId);
+sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
 ?>
 <?php
 //メッセージの送信
-function sending_messages($accessToken, $replyToken, $message_type, $return_message_text, $return_message_sticker_packageId, $return_message_sticker_stickerId)
+function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
 {
     //レスポンスフォーマット
     $response_format_text = [
         'type' => $message_type,
         'text' => $return_message_text,
     ];
-    $response_format_sticker = [
-        'type' => 'sticker',
-        'packageId' => $return_message_sticker_packageId,
-        'stickerId' => $return_message_sticker_stickerId,
-    ];
+    // $response_format_sticker = [
+    //     'type' => 'sticker',
+    //     'packageId' => $return_message_sticker_packageId,
+    //     'stickerId' => $return_message_sticker_stickerId,
+    // ];
 
     //ポストデータ
     $post_data = [
         'replyToken' => $replyToken,
-        'messages' => [$response_format_text, $response_format_sticker],
+        'messages' => [$response_format_text],
     ];
 
     //curl実行
