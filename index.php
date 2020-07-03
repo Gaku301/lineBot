@@ -14,8 +14,7 @@ $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッ�
 
 //メッセージタイプが「text」以外のときは何も返さず終了
 if ($message_type != 'text') {
-    $return_message_sticker_packageId = '11538';
-    $return_message_sticker_stickerId = '51626496';
+    exit;
 }
 
 //返信メッセージ
@@ -43,11 +42,6 @@ function sending_messages($accessToken, $replyToken, $message_type, $return_mess
         'type' => $message_type,
         'text' => $return_message_text,
     ];
-    // $response_format_sticker = [
-    //     'type' => 'sticker',
-    //     'packageId' => $return_message_sticker_packageId,
-    //     'stickerId' => $return_message_sticker_stickerId,
-    // ];
 
     //ポストデータ
     $post_data = [
