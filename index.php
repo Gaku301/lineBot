@@ -3,88 +3,63 @@
 // チャンネルアクセストークンを入力
 $accessToken = 'H9W/gAYIJIXGoTFy7OiusrdhT4/F23bZ4oE5HcIzOTc4c4CXSnHYxLUNPigwHAywndFLoNwZCoa0DU5sNq2yfqwCsS0Ps9abSYsgIVgNo+ygvnA1IJgkXz2WLjfjTc1Q4uG9KfwPX/HBko2YGGnE/AdB04t89/1O/w1cDnyilFU=';
 
-// 受信したメッセージ情報
-$raw = file_get_contents('php://input');
-$receive = json_decode($raw, true);
+//ユーザーからのメッセージ取得
+$json_string = file_get_contents('php://input');
+$json_object = json_decode($json_string);
 
-$event = $receive['events'][0];
-$reply_token = $event['replyToken'];
+//取得データ
+$replyToken = $json_object->{'events'}[0]->{'replyToken'};        //返信用トークン
+$message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッセージタイプ
+$message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
 
-$headers = array('Content-Type: application/json',
-                 'Authorization: Bearer '.$accessToken, );
+//メッセージタイプが「text」以外のときは何も返さず終了
+if ($message_type != 'text') {
+    exit;
+}
 
-$message = array('type' => 'text', 'text' => 'よ！');
+//返信メッセージ
+if (preg_match('/だれ|誰/', $message_text)) {
+    $return_message_text = 'こっちのセリフだよwww';
+} elseif (preg_match('/よろしく/', $message_text)) {
+    $return_message_text = 'お、おうw　よろしくな！w';
+} elseif (preg_match('/やるじゃん|すごい/', $message_text)) {
+    $return_message_text = 'まぁなwww';
+} elseif (preg_match('/言えない|言えん|いえん|いえない/', $message_text)) {
+    $return_message_text = 'ばーかww　なめんなよww';
+} else {
+    $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
+}
 
-$body = json_encode(array('replyToken' => $reply_token,
-                          'messages' => array($message), ));
-$options = array(CURLOPT_URL => 'https://api.line.me/v2/bot/message/reply',
-                 CURLOPT_CUSTOMREQUEST => 'POST',
-                 CURLOPT_RETURNTRANSFER => true,
-                 CURLOPT_HTTPHEADER => $headers,
-                 CURLOPT_POSTFIELDS => $body, );
+//返信実行
+sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
+?>
+<?php
+//メッセージの送信
+function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
+{
+    //レスポンスフォーマット
+    $response_format_text = [
+        'type' => $message_type,
+        'text' => $return_message_text,
+    ];
 
-$curl = curl_init();
-curl_setopt_array($curl, $options);
-curl_exec($curl);
-curl_close($curl);
+    //ポストデータ
+    $post_data = [
+        'replyToken' => $replyToken,
+        'messages' => [$response_format_text],
+    ];
 
-// //ユーザーからのメッセージ取得
-// $json_string = file_get_contents('php://input');
-// $json_object = json_decode($json_string);
-
-// //取得データ
-// $replyToken = $json_object->{'events'}[0]->{'replyToken'};        //返信用トークン
-// $message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッセージタイプ
-// $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
-
-// //メッセージタイプが「text」以外のときは何も返さず終了
-// if ($message_type != 'text') {
-//     exit;
-// }
-
-// //返信メッセージ
-// if (preg_match('/だれ|誰/', $message_text)) {
-//     $return_message_text = 'こっちのセリフだよwww';
-// } elseif (preg_match('/よろしく/', $message_text)) {
-//     $return_message_text = 'お、おうw　よろしくな！w';
-// } elseif (preg_match('/やるじゃん|すごい/', $message_text)) {
-//     $return_message_text = 'まぁなwww';
-// } elseif (preg_match('/言えない|言えん|いえん|いえない/', $message_text)) {
-//     $return_message_text = 'ばーかww　なめんなよww';
-// } else {
-//     $return_message_text = '「'.$message_text.'」じゃねーよｗｗｗ';
-// }
-
-// //返信実行
-// sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
-//?>
-// <?php
-// //メッセージの送信
-// function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
-// {
-//     //レスポンスフォーマット
-//     $response_format_text = [
-//         'type' => $message_type,
-//         'text' => $return_message_text,
-//     ];
-
-//     //ポストデータ
-//     $post_data = [
-//         'replyToken' => $replyToken,
-//         'messages' => [$response_format_text],
-//     ];
-
-//     //curl実行
-//     $ch = curl_init('https://api.line.me/v2/bot/message/reply');
-//     curl_setopt($ch, CURLOPT_POST, true);
-//     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
-//     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-//         'Content-Type: application/json; charser=UTF-8',
-//         'Authorization: Bearer '.$accessToken,
-//     ));
-//     $result = curl_exec($ch);
-//     curl_close($ch);
-// }
+    //curl実行
+    $ch = curl_init('https://api.line.me/v2/bot/message/reply');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charser=UTF-8',
+        'Authorization: Bearer '.$accessToken,
+    ));
+    $result = curl_exec($ch);
+    curl_close($ch);
+}
 ?>
