@@ -12,12 +12,9 @@ $replyToken = $json_object->{'events'}[0]->{'replyToken'};        //返信用ト
 $message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッセージタイプ
 $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
 
-//メッセージタイプが「text」以外のときは何も返さず終了
-// if ($message_type != 'text') {
-//     exit;
-// }
-
+//メッセージタイプがスタンプの時
 if ($message_type === 'sticker') {
+    //スタンプを送信
     $return_message_sticker_packageId = '11538';
     $return_message_sticker_stickerId = '51626496';
 
@@ -42,7 +39,7 @@ if (preg_match('/だれ|誰/', $message_text)) {
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
 ?>
 <?php
-//メッセージの送信
+//テキストの送信
 function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
 {
     //レスポンスフォーマット
@@ -69,7 +66,7 @@ function sending_messages($accessToken, $replyToken, $message_type, $return_mess
     $result = curl_exec($ch);
     curl_close($ch);
 }
-
+//スタンプを送信
 function sending_stikcers($accessToken, $replyToken, $message_type, $return_message_sticker_packageId, $return_message_sticker_stickerId)
 {
     //レスポンスフォーマット
