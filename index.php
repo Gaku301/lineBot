@@ -13,13 +13,16 @@ $message_type = $json_object->{'events'}[0]->{'message'}->{'type'};    //メッ�
 $message_text = $json_object->{'events'}[0]->{'message'}->{'text'};    //メッセージ内容
 
 //メッセージタイプが「text」以外のときは何も返さず終了
-if ($message_type != 'text') {
-    exit;
-}
+// if ($message_type != 'text') {
+//     exit;
+// }
 
 if ($message_type === 'sticker') {
     $return_message_sticker_packageId = '11538';
     $return_message_sticker_stickerId = '51626496';
+
+    //返信実行
+    sending_stikcers($accessToken, $replyToken, $message_type, $return_message_sticker_packageId, $return_message_sticker_stickerId);
 }
 
 //返信メッセージ
@@ -36,29 +39,50 @@ if (preg_match('/だれ|誰/', $message_text)) {
 }
 
 //返信実行
-sending_messages($accessToken, $replyToken, $message_type, $return_message_text, $return_message_sticker_packageId, $return_message_sticker_stickerId);
+sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
 ?>
 <?php
 //メッセージの送信
-function sending_messages($accessToken, $replyToken, $message_type, $return_message_text, $return_message_sticker_packageId, $return_message_sticker_stickerId)
+function sending_messages($accessToken, $replyToken, $message_type, $return_message_text)
 {
     //レスポンスフォーマット
     $response_format_text = [
         'type' => $message_type,
         'text' => $return_message_text,
     ];
-    $response_format_sticker = [
-        'type' => $message_type,
-        'packageId' => $return_message_sticker_packageId,
-        'stickerId' => $return_message_sticker_stickerId,
-    ];
-
     //ポストデータ
     $post_data = [
         'replyToken' => $replyToken,
         'messages' => [$response_format_text],
     ];
 
+    //curl実行
+    $ch = curl_init('https://api.line.me/v2/bot/message/reply');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charser=UTF-8',
+        'Authorization: Bearer '.$accessToken,
+    ));
+    $result = curl_exec($ch);
+    curl_close($ch);
+}
+
+function sending_stikcers($accessToken, $replyToken, $message_type, $return_message_sticker_packageId, $return_message_sticker_stickerId)
+{
+    //レスポンスフォーマット
+    $response_format_sticker = [
+        'type' => $message_type,
+        'packageId' => $return_message_sticker_packageId,
+        'stickerId' => $return_message_sticker_stickerId,
+    ];
+    //ポストデータ
+    $post_data = [
+        'replyToken' => $replyToken,
+        'messages' => [$response_format_sticker],
+    ];
     //curl実行
     $ch = curl_init('https://api.line.me/v2/bot/message/reply');
     curl_setopt($ch, CURLOPT_POST, true);
